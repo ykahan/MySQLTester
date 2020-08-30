@@ -10,16 +10,17 @@ public class Main {
         String user = "root";
         String password = "abcd";
 
-        final String SELECT_QUERY = "SELECT * FROM employees WHERE emp_no = ";
+        final String SELECT_QUERY = "SELECT * FROM employees WHERE emp_no = ?";
         final String TIME_QUERY = "SELECT now()";
         Scanner scanner = new Scanner(System.in);
         try {
             Connection conn = DriverManager.getConnection(connStr, user, password);
             System.out.println("Connected successfully");
-            Statement statement = conn.createStatement();
+            PreparedStatement ps = conn.prepareStatement(SELECT_QUERY);
             System.out.println("Please enter employee number");
             String empNumber = scanner.nextLine();
-            ResultSet rs = statement.executeQuery(SELECT_QUERY + empNumber + ";");
+            ps.setString(1, empNumber);
+            ResultSet rs = ps.executeQuery();
 
             int index = 1;
             while(rs.next()){
