@@ -1,4 +1,5 @@
 import java.sql.*;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
@@ -9,24 +10,26 @@ public class Main {
         String user = "root";
         String password = "abcd";
 
-        final String SELECT_QUERY = "SELECT * FROM employees";
+        final String SELECT_QUERY = "SELECT * FROM employees WHERE emp_no = ";
         final String TIME_QUERY = "SELECT now()";
-
+        Scanner scanner = new Scanner(System.in);
         try {
             Connection conn = DriverManager.getConnection(connStr, user, password);
             System.out.println("Connected successfully");
             Statement statement = conn.createStatement();
-            ResultSet rs = statement.executeQuery(TIME_QUERY);
+            System.out.println("Please enter employee number");
+            String empNumber = scanner.nextLine();
+            ResultSet rs = statement.executeQuery(SELECT_QUERY + empNumber + ";");
 
             int index = 1;
-//            while(rs.next()){
-//                System.out.println(index + "\nEmp. No: " + rs.getInt(1));
-//                System.out.println(rs.getString(4) + ", " + rs.getString(3));
-//                System.out.println("Born on: " + rs.getString(2));
-//                index++;
-//                System.out.println("===========================");
-//            }
-            while(rs.next()) System.out.println(rs.getString(1));
+            while(rs.next()){
+                System.out.println(index + "\nEmp. No: " + rs.getInt(1));
+                System.out.println(rs.getString(4) + ", " + rs.getString(3));
+                System.out.println("Born on: " + rs.getString(2));
+                index++;
+                System.out.println("===========================");
+            }
+//            while(rs.next()) System.out.println(rs.getString(1));
         } catch (SQLException throwables) {
             System.out.println("Connection error");
             throwables.printStackTrace();
