@@ -1,0 +1,19 @@
+CREATE DATABASE IF NOT EXISTS teams;
+USE teams;
+DROP TABLE IF EXISTS members;
+DROP TABLE IF EXISTS teams;
+
+CREATE TABLE teams(
+    id INT(10) NOT NULL AUTO_INCREMENT,
+    PRIMARY KEY(id),
+    name VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE members(
+    id INT(10) NOT NULL AUTO_INCREMENT,
+    PRIMARY KEY(id),
+    first_name VARCHAR(10) NOT NULL,
+    last_name VARCHAR(10) NOT NULL,
+    team_id INT(10) NOT NULL,
+    FOREIGN KEY (team_id) REFERENCES teams(id)
+);
